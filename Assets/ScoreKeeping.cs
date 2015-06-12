@@ -3,13 +3,14 @@ using System.Collections;
 using UnityEngine.UI;
 public class ScoreKeeping : MonoBehaviour {
 
+	public Target t;
 	private Text txt;
 	private Text txt2;
 	private Text txt3;
 	private Button b1;
 	private Button b2;
 	private Button b3;
-	private int score = 0;
+	private float score = 0;
 	private int trials = 1;
 	// Use this for initialization
 	void Start () {
@@ -36,14 +37,16 @@ public class ScoreKeeping : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		txt.text = "Best Reaction Time: " + score;
+		txt2.text = "TestTest";
 		txt3.text = "Trials: " + trials;
-		if (Input.GetKeyDown (KeyCode.Space))
-			ToggleTargetText ();
 	}
 
-	public void SetScore(int val) {
-		score = val;
+	public void AddScore(float val) {
+		score += val;
 	}
+
+	public float Score{ get{return score;} set{score = value;}}
 
 	void ToggleTargetText()
 	{
@@ -67,7 +70,6 @@ public class ScoreKeeping : MonoBehaviour {
 		txt3.enabled = false;
 		txt.enabled = true;
 		txt2.enabled = true;
-		txt.text = "Score: " + score;
-		txt2.text = "TestTest";
+		t.Begin (trials);
 	}
 }

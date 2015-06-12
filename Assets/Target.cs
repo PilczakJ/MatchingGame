@@ -23,6 +23,17 @@ public class Target : MonoBehaviour {
 				ShowPossibleTarget ();
 			if ((int)time == 2 && shown)
 				RemovePossibleTarget ();
+
+			if(shown)
+			{
+				if(Input.GetKeyDown(KeyCode.Space))
+				{
+					//scoreKeeper.AddScore(2 - time);
+					if(scoreKeeper.Score > (time) || scoreKeeper.Score == 0)
+						scoreKeeper.Score = (time);
+					RemovePossibleTarget();
+				}
+			}
 		} else {
 
 		}
@@ -43,7 +54,7 @@ public class Target : MonoBehaviour {
 		shown = false;
 	}
 
-	void Begin(int trials)
+	public void Begin(int trials)
 	{
 		started = true;
 		shown = true;
