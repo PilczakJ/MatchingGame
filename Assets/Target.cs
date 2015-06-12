@@ -18,7 +18,7 @@ public class Target : MonoBehaviour {
 			ShowPossibleTarget ();
 		if ((int)time == 2 && shown)
 			RemovePossibleTarget ();
-		scoreKeeper.SetScore ((int)time);
+
 	}
 
 	void ShowPossibleTarget()

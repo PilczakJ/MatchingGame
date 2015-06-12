@@ -14,7 +14,10 @@ public class ScoreKeeping : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		txt.text = "Score: " + score;
-
+		if (Input.GetKeyDown (KeyCode.Space))
+			score = 1;
+		if (Input.GetKeyUp (KeyCode.Space))
+			score = 0;
 	}
 
 	public void SetScore(int val) {
