@@ -4,34 +4,49 @@ using System.Collections;
 public class Target : MonoBehaviour {
 
 	public ScoreKeeping scoreKeeper;
+	public int trials;
 	private float time;
 	private bool shown;
+	private bool started;
 	// Use this for initialization
 	void Start () {
-		shown = true;
+		for(int i = 0;i<transform.childCount;i++)
+			transform.GetChild(i).gameObject.GetComponent<SpriteRenderer> ().enabled = false;
+		started = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		time += Time.deltaTime;
-		if(!shown && (int)time == 2)
-			ShowPossibleTarget ();
-		if ((int)time == 2 && shown)
-			RemovePossibleTarget ();
+		if (started) {
+			time += Time.deltaTime;
+			if (!shown && (int)time == 2)
+				ShowPossibleTarget ();
+			if ((int)time == 2 && shown)
+				RemovePossibleTarget ();
+		} else {
+
+		}
 
 	}
 
 	void ShowPossibleTarget()
 	{
-		gameObject.GetComponent<SpriteRenderer> ().enabled = true;
+		transform.GetChild(0).gameObject.GetComponent<SpriteRenderer> ().enabled = true;
 		shown = true;
 		time = 0;
 	}
 
 	void RemovePossibleTarget()
 	{
-		gameObject.GetComponent<SpriteRenderer> ().enabled = false;
+		transform.GetChild(0).gameObject.GetComponent<SpriteRenderer> ().enabled = false;
 		time = 0;
 		shown = false;
+	}
+
+	void Begin(int trials)
+	{
+		started = true;
+		shown = true;
+		transform.GetChild(0).gameObject.GetComponent<SpriteRenderer> ().enabled = true;
 	}
 }
