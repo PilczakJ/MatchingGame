@@ -5,9 +5,12 @@ public class Target : MonoBehaviour {
 
 	public ScoreKeeping scoreKeeper;
 	public int trials;
+	private int currentTrial = 1;
 	private float time;
-	private bool shown;
+	private bool imageShown;
 	private bool started;
+	private bool targetShown;
+	private int imageSeriesNum = 0;
 	// Use this for initialization
 	void Start () {
 		for(int i = 0;i<transform.childCount;i++)
@@ -19,31 +22,50 @@ public class Target : MonoBehaviour {
 	void Update () {
 		if (started) {
 			time += Time.deltaTime;
-			if (!shown && (int)time == 2)
+			scoreKeeper.CurrentTrial = currentTrial;
+		}
+		//If the last trial is done, end the game
+
+
+		// If the trial has started and the initial target hasn't been shown, show the target for two seconds
+		if (started && currentTrial<=trials && !targetShown) {
+			if (!imageShown && (int)time == 1)
+			{
 				ShowPossibleTarget ();
-			if ((int)time == 2 && shown)
+			}
+			else if ((int)time == 2 && imageShown)
+			{
+				RemovePossibleTarget ();
+				targetShown = true;
+				scoreKeeper.ToggleTargetText();
+			}
+		}
+
+		// If the trial has started and the initial target has been shown, go through the series of images
+		else if (targetShown && started && currentTrial<= trials) {
+			if (!imageShown && (int)time == 1)
+				ShowPossibleTarget ();
+			if ((int)time == 2 && imageShown)
 				RemovePossibleTarget ();
 
-			if(shown)
+			if(imageShown)
 			{
 				if(Input.GetKeyDown(KeyCode.Space))
 				{
-					//scoreKeeper.AddScore(2 - time);
 					if(scoreKeeper.Score > (time) || scoreKeeper.Score == 0)
 						scoreKeeper.Score = (time);
 					RemovePossibleTarget();
 				}
 			}
-		} else {
-
 		}
+
 
 	}
 
 	void ShowPossibleTarget()
 	{
 		transform.GetChild(0).gameObject.GetComponent<SpriteRenderer> ().enabled = true;
-		shown = true;
+		imageShown = true;
 		time = 0;
 	}
 
@@ -51,13 +73,43 @@ public class Target : MonoBehaviour {
 	{
 		transform.GetChild(0).gameObject.GetComponent<SpriteRenderer> ().enabled = false;
 		time = 0;
-		shown = false;
+		imageShown = false;
+		if (targetShown) {
+			if(imageSeriesNum == 5)
+				NewTrial();
+			else
+				imageSeriesNum++;
+		}
+
+	}
+
+	void NewTrial()
+	{
+		if (currentTrial == trials && started) {
+			EndTrials ();
+		} else {
+			targetShown = false;
+			imageSeriesNum = 0;
+			ShowPossibleTarget();
+			scoreKeeper.ToggleTargetText ();
+			currentTrial++;
+		}
+	}
+
+	void EndTrials()
+	{
+		started = false;
+		scoreKeeper.EndTrials();
 	}
 
 	public void Begin(int trials)
 	{
 		started = true;
-		shown = true;
+		currentTrial = 1;
+		targetShown = false;
+		scoreKeeper.ToggleTargetText ();
 		transform.GetChild(0).gameObject.GetComponent<SpriteRenderer> ().enabled = true;
+		this.trials = trials;
+
 	}
 }
