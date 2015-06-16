@@ -13,6 +13,7 @@ public class Target : MonoBehaviour {
 	private int imageSeriesNum = 0;
 	private int targetIndex;
 	private int[] trialImages;
+	private int spaceCount = 0;
 	// Use this for initialization
 	void Start () {
 		trialImages = new int[6];
@@ -51,11 +52,17 @@ public class Target : MonoBehaviour {
 
 			if(imageShown)
 			{
-				if(Input.GetKeyDown(KeyCode.Space) && trialImages[imageSeriesNum] == targetIndex)
+				if(Input.GetKeyDown(KeyCode.Space))
 				{
-					if(scoreKeeper.Score > (time) || scoreKeeper.Score == 0)
-						scoreKeeper.Score = (time);
-					RemovePossibleTarget();
+					spaceCount++;
+					if(trialImages[imageSeriesNum] == targetIndex)
+					{
+						if(scoreKeeper.score[currentTrial-1] > (time) || scoreKeeper.score[currentTrial-1] == 0)
+							scoreKeeper.score[currentTrial-1] = (time);
+						RemovePossibleTarget();
+					}
+					else
+						scoreKeeper.missed[currentTrial-1]++;
 				}
 			}
 		}
@@ -73,6 +80,10 @@ public class Target : MonoBehaviour {
 	void RemovePossibleTarget()
 	{
 		transform.GetChild(trialImages[imageSeriesNum]).gameObject.GetComponent<SpriteRenderer> ().enabled = false;
+		if (trialImages [imageSeriesNum] == targetIndex && targetShown) {
+			if(time > 1.1)
+				scoreKeeper.missed[currentTrial-1]++;
+		}
 		time = 0;
 		imageShown = false;
 		if (targetShown) {
@@ -86,11 +97,19 @@ public class Target : MonoBehaviour {
 	{
 		targetShown = false;
 		imageSeriesNum = 0;
+		if (spaceCount == 0 && scoreKeeper.missed [currentTrial - 1] == 0)
+			scoreKeeper.missed [currentTrial - 1] = 0;
+		else if (spaceCount == 0 && scoreKeeper.missed [currentTrial - 1] > 0)
+			scoreKeeper.missed [currentTrial - 1] = 1;
+		else
+			scoreKeeper.missed[currentTrial-1] = (scoreKeeper.missed[currentTrial-1]/spaceCount);
+		spaceCount = 0;
 		if (currentTrial == trials && started) {
 			EndTrials ();
 		} else {
 			NewTarget();
 			scoreKeeper.ToggleTargetText ();
+			time = 0;
 			transform.GetChild(targetIndex).gameObject.GetComponent<SpriteRenderer> ().enabled = true;
 			imageShown = true;
 			currentTrial++;
@@ -100,7 +119,8 @@ public class Target : MonoBehaviour {
 	void EndTrials()
 	{
 		started = false;
-		scoreKeeper.EndTrials();
+		//scoreKeeper.EndTrials();
+		scoreKeeper.SwapToEndUI ();
 	}
 
 	public void Begin(int trials)
@@ -108,10 +128,13 @@ public class Target : MonoBehaviour {
 		started = true;
 		NewTarget ();
 		currentTrial = 1;
+		scoreKeeper.score [currentTrial - 1] = 0;
+		scoreKeeper.missed [currentTrial - 1] = 0;
 		targetShown = false;
 		scoreKeeper.ToggleTargetText ();
 		transform.GetChild(targetIndex).gameObject.GetComponent<SpriteRenderer> ().enabled = true;
 		imageShown = true;
+		time = 0;
 		this.trials = trials;
 
 	}
@@ -119,9 +142,8 @@ public class Target : MonoBehaviour {
 	void NewTarget()
 	{
 		targetIndex = Random.Range (1, 6);
-		for(int i = 0;i<5;i++)
+		for(int i = 0;i<6;i++)
 		{
-			//while(trialImages[i] == targetIndex || trialImages[i] == 0)
 			trialImages[i] = Random.Range(1,6);
 		}
 	}
