@@ -1,19 +1,23 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\ScoreKeeping.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Target.cs">
     <Files>
-      <File FileName="Assets\Target.cs" Line="63" Column="1" />
-      <File FileName="Assets\ScoreKeeping.cs" Line="60" Column="22" />
+      <File FileName="Assets\Target.cs" Line="103" Column="42" />
+      <File FileName="Assets\ScoreKeeping.cs" Line="92" Column="30" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="D:\My Documents\MatchingGame\Assets\Target.cs" line="63" />
+      <Breakpoint file="D:\My Documents\MatchingGame\Assets\Target.cs" line="148" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
     <Watch file="Assets\Target.cs" line="109" offsetX="397" offsetY="1836" expression="targetIndex" liveUpdate="False" />
     <Watch file="Assets\Target.cs" line="109" offsetX="397" offsetY="1836" expression="Random.value" liveUpdate="False" />
     <Watch file="Assets\Target.cs" line="121" offsetX="429" offsetY="2040" expression="trialImages" liveUpdate="False" />
+    <Watch file="Assets\Target.cs" line="99" offsetX="973" offsetY="1666" expression="scoreKeeper.numberMissed" liveUpdate="False" />
+    <Watch file="Assets\Target.cs" line="99" offsetX="973" offsetY="1666" expression="scoreKeeper.numberMissed" liveUpdate="False" />
+    <Watch file="Assets\Target.cs" line="99" offsetX="973" offsetY="1666" expression="scoreKeeper.numberMissed" liveUpdate="False" />
+    <Watch file="Assets\Target.cs" line="128" offsetX="373" offsetY="2159" expression="scoreKeeper" liveUpdate="False" />
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
 </Properties>
