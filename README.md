@@ -1,6 +1,7 @@
 # MatchingGame
 
 ## Description
+Problem given to solve by Neuroscouting
 Based on the given descriptions, I made a game which I call QuickDice. This game is one which is themed to be like a casino with red dice on a green felt table. It measures the accuracy and reaction time of the player by initially showing a target dice side to the player and then a series of six random "rolls" which expect the player to hit the space bar when they see the target image. The player may set the number of trials of the game from the main menu and the score for each trial will be reported once they are all completed.
 
 ## How to Play
